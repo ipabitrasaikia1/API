@@ -35,7 +35,7 @@ async function getMovie(){
 let movieName = document.getElementById("input").value
 console.log(movieName)
 
- let res = await fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=9ca24cf1`);
+let res = await fetch(`http://www.omdbapi.com/?t=${movieName}&apikey=9ca24cf1`);
 
 let data = await res.json()
 console.log("dataaa",data)
