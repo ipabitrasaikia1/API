@@ -62,15 +62,18 @@ function showMovie(d){
     actor.textContent = d.Actors;
 
     let director = document.createElement("p")
-    director.textContent = d.Director
+    director.textContent = "DIRECTOR :" + d.Director
 
     let genre = document.createElement("p")
-    genre.textContent = d.Genre
+    genre.textContent = "GENRE : " + d.Genre
+
+    let Release = document.createElement("p")
+    Release.textContent = "Released date :" + d.Released
 
     let lang = document.createElement("p")
     lang.textContent = d.Language
 
-    div.append(image,title,actor,director,genre,lang)
+    div.append(image,title,actor,director,genre,Release,lang)
 
     parent.append(div)
 
