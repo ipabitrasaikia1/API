@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie</title>
+</head>
+<style>
+
+    #op{
+        margin-top: 100px;
+    }
+
+    
+</style>
+<body>
+    <h1>MOVIE KA MELA </h1>
+    <div id="movieSearch">
+        <input type="text" placeholder="Enter Movie Name" id="input" required>
+        <button onclick="getMovie()">Search</button> 
+
+    </div>
+
+    <div id="op">
+
+    </div>
+</body>
+</html>
+
+<script>
+
+async function getMovie(){
+
+let movieName = document.getElementById("input").value
+console.log(movieName)
+
+ let res = await fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=9ca24cf1`);
+
+let data = await res.json()
+console.log("dataaa",data)
+
+showMovie(data)
+
+
+
+}
+
+function showMovie(d){
+
+    let div = document.createElement("div")
+    let parent = document.getElementById("op")
+
+    let image = document.createElement("img")
+    image.src = d.Poster;
+
+
+    let title = document.createElement("p")
+    title.textContent = d.Title;
+
+    let actor= document.createElement("p")
+    actor.textContent = d.Actors;
+
+    let director = document.createElement("p")
+    director.textContent = d.Director
+
+    let genre = document.createElement("p")
+    genre.textContent = d.Genre
+
+    let lang = document.createElement("p")
+    lang.textContent = d.Language
+
+    div.append(image,title,actor,director,genre,lang)
+
+    parent.append(div)
+
+
+}
+
+</script>
