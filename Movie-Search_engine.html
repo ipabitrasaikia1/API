@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,18 +8,18 @@
     <title>Movie</title>
 </head>
 <style>
-
-    #op{
+    #op {
         margin-top: 100px;
+      
+       
     }
-
-    
 </style>
+
 <body>
     <h1>MOVIE KA MELA </h1>
     <div id="movieSearch">
         <input type="text" placeholder="Enter Movie Name" id="input" required>
-        <button onclick="getMovie()">Search</button> 
+        <button onclick="getMovie()">Search</button>
 
     </div>
 
@@ -26,58 +27,88 @@
 
     </div>
 </body>
+
 </html>
 
 <script>
 
-async function getMovie(){
+    async function getMovie() {
 
-let movieName = document.getElementById("input").value
-console.log(movieName)
+        let movieName = document.getElementById("input").value
+        console.log(movieName)
 
-let res = await fetch(`http://www.omdbapi.com/?t=${movieName}&apikey=9ca24cf1`);
+        let res = await fetch(`http://www.omdbapi.com/?t=${movieName}&apikey=9ca24cf1`);
 
-let data = await res.json()
-console.log("dataaa",data)
+        let data = await res.json()
+        console.log("dataaa", data)
 
-showMovie(data)
+        if (data.Response == 'False') {
 
+            let message = `${movieName} is Not Found`
+            alert(message)
 
+            let parent = document.getElementById("op")
 
-}
+            parent.innerHTML = null;
+            let image = document.createElement("div")
+            image.style = "margin:auto;border:1px ;width:30%;height:200px;  box-sizing: border-box;"
+            let gif = document.createElement("img")
+            gif.src = "https://cdn.glitch.com/0e4d1ff3-5897-47c5-9711-d026c01539b8%2Fbddfd6e4434f42662b009295c9bab86e.gif?v=1573157191712"
+            gif.style = "width: 100%;height:200px"
+            image.append(gif)
 
-function showMovie(d){
+            let err = document.createElement("p")
+            err.textContent= `${movieName} is Not Available!`
+            err.style = " text-align: center;font-weight: bold;"
 
-    let div = document.createElement("div")
-    let parent = document.getElementById("op")
+            parent.append(err,image)
+        }
 
-    let image = document.createElement("img")
-    image.src = d.Poster;
-
-
-    let title = document.createElement("p")
-    title.textContent = d.Title;
-
-    let actor= document.createElement("p")
-    actor.textContent = d.Actors;
-
-    let director = document.createElement("p")
-    director.textContent = "DIRECTOR :" + d.Director
-
-    let genre = document.createElement("p")
-    genre.textContent = "GENRE : " + d.Genre
-
-    let Release = document.createElement("p")
-    Release.textContent = "Released date :" + d.Released
-
-    let lang = document.createElement("p")
-    lang.textContent = d.Language
-
-    div.append(image,title,actor,director,genre,Release,lang)
-
-    parent.append(div)
+        else {
 
 
-}
+
+            showMovie(data)
+        }
+
+
+
+
+    }
+
+    function showMovie(d) {
+
+        let div = document.createElement("div")
+        let parent = document.getElementById("op")
+        parent.innerHTML = null;
+
+        let image = document.createElement("img")
+        image.src = d.Poster;
+
+
+        let title = document.createElement("p")
+        title.textContent = d.Title;
+
+        let actor = document.createElement("p")
+        actor.textContent = d.Actors;
+
+        let director = document.createElement("p")
+        director.textContent = "DIRECTOR :" + d.Director
+
+        let genre = document.createElement("p")
+        genre.textContent = "GENRE : " + d.Genre
+
+        let Release = document.createElement("p")
+        Release.textContent = "Released date :" + d.Released
+
+        let lang = document.createElement("p")
+        lang.textContent = d.Language
+
+        div.append(image, title, actor, director, genre, Release, lang)
+
+        parent.append(div)
+
+
+    }
 
 </script>
