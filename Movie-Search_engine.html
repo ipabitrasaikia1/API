@@ -10,8 +10,9 @@
 <style>
     #op {
         margin-top: 100px;
-      
-       
+        
+
+
     }
 </style>
 
@@ -58,10 +59,10 @@
             image.append(gif)
 
             let err = document.createElement("p")
-            err.textContent= `${movieName} is Not Available!`
+            err.textContent = `${movieName} is Not Available!`
             err.style = " text-align: center;font-weight: bold;"
 
-            parent.append(err,image)
+            parent.append(err, image)
         }
 
         else {
@@ -78,12 +79,19 @@
 
     function showMovie(d) {
 
+
+
         let div = document.createElement("div")
         let parent = document.getElementById("op")
         parent.innerHTML = null;
 
+        let imageDiv = document.createElement("div")
+
         let image = document.createElement("img")
         image.src = d.Poster;
+
+        imageDiv.style = "margin: 3%;position: relative;"
+        imageDiv.append(image)
 
 
         let title = document.createElement("p")
@@ -104,9 +112,30 @@
         let lang = document.createElement("p")
         lang.textContent = d.Language
 
-        div.append(image, title, actor, director, genre, Release, lang)
+        let imdbRating = document.createElement("p")
+        imdbRating.textContent ="IMBD Rating : " + d.imdbRating
 
-        parent.append(div)
+        if (Number(d.imdbRating) >= 6.5) {
+
+            let recomand = document.createElement("p")
+            recomand.textContent = "RECOMANDED"
+            recomand.style = " position: absolute;bottom: 2px;left:0px;color:green;font-weight:bold;background-color: white"
+
+            imageDiv.append(recomand)
+            div.append(imageDiv, title, actor, director, genre, Release, lang, imdbRating)
+            parent.append(div)
+
+        }
+
+        else {
+
+            div.append(imageDiv, title, actor, director, genre, Release, lang,imdbRating)
+
+            parent.append(div)
+
+
+        }
+
 
 
     }
