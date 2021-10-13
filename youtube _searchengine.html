@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        #videos{
+            display: grid;
+            margin: auto;
+            margin-left: 30%;
+            grid-template-columns: auto;
+            margin-top: 20px ;
+            gap: 15px;
+            width: 50%;
+            border: 1px ;
+            /* align-content: center; */
+        }
+
+        #navBar{
+
+            height: 30px;
+            width: 40%;
+            border: 1px ;
+            margin:auto;
+            display: flex;
+            gap: 50px;
+        }
+        #query{
+
+            width: 300px;
+            height: 25px;
+        }
+
+        #logo{
+            box-sizing: border-box;
+            border: 1px ;
+            width: 100px;
+        }
+
+        #searchbtn{
+            height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+  
+
+        <div id="navBar"> 
+
+            <div id="logo">
+
+                <img src="https://icon-library.com/images/small-youtube-icon/small-youtube-icon-25.jpg" alt="" height="100%" >
+
+            </div>
+            <div>
+
+                <input type="text" id="query" placeholder="Search for a Video" />
+    
+                <button id="searchbtn" onclick="searchVideos()">Search</button>
+
+            </div>
+            
+        
+           
+        
+        </div>
+       
+    
+        <div id="videos"></div>
+
+
+    
+   
+</body>
+
+</html>
+
+<script>
+
+
+    let video = document.getElementById("videos")
+    let query = document.getElementById("query").value
+
+    async function searchVideos() {
+        let query = document.getElementById("query").value
+
+        let res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?q=${query}&type=video&key=AIzaSyB2Ij-SYpZRmmaBT4BpYs9c0jIe4JiNbA0&maxResults=20`)
+
+        let data = await res.json()
+        console.log("data", data);
+         appendVideos(data.items)
+    }
+
+    // searchVideos();
+
+
+    function appendVideos(video_data) {
+
+        // console.log(video_data)
+        video.innerHTML = null;
+
+        video_data.forEach(({ id: { videoId } }) => {
+
+
+            console.log("video", videoId)
+
+            
+
+            let div = document.createElement("div");
+
+            div.innerHTML = `<iframe width="700px" height="250px" src="https://www.youtube.com/embed/${videoId}"frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+
+            
+
+
+            video.append(div)
+
+
+        });
+
+    }
+
+
+</script>
