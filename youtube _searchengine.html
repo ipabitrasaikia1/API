@@ -7,40 +7,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        #videos{
+        #videos {
             display: grid;
             margin: auto;
             margin-left: 30%;
             grid-template-columns: auto;
-            margin-top: 20px ;
+            margin-top: 20px;
             gap: 15px;
             width: 50%;
-            border: 1px ;
+            border: 1px;
             /* align-content: center; */
         }
 
-        #navBar{
+        #navBar {
 
             height: 30px;
             width: 40%;
-            border: 1px ;
-            margin:auto;
+            border: 1px;
+            margin: auto;
             display: flex;
             gap: 50px;
         }
-        #query{
+
+        #query {
 
             width: 300px;
             height: 25px;
         }
 
-        #logo{
+        #logo {
             box-sizing: border-box;
-            border: 1px ;
+            border: 1px;
             width: 100px;
         }
 
-        #searchbtn{
+        #searchbtn {
             height: 30px;
         }
     </style>
@@ -48,34 +49,37 @@
 
 <body>
 
-  
 
-        <div id="navBar"> 
 
-            <div id="logo">
+    <div id="navBar">
 
-                <img src="https://icon-library.com/images/small-youtube-icon/small-youtube-icon-25.jpg" alt="" height="100%" >
+        <div id="logo">
 
-            </div>
-            <div>
+            <img src="https://icon-library.com/images/small-youtube-icon/small-youtube-icon-25.jpg" alt=""
+                height="100%">
 
-                <input type="text" id="query" placeholder="Search for a Video" />
-    
-                <button id="searchbtn" onclick="searchVideos()">Search</button>
-
-            </div>
-            
-        
-           
-        
         </div>
+        <div>
+
+            <input type="text" id="query" placeholder="Search for a Video" />
+
+            <button id="searchbtn" onclick="searchVideos()">Search</button>
+
+        </div>
+
+
+
+
+    </div>
+
+
+    <div id="videos">
        
-    
-        <div id="videos"></div>
+    </div>
 
 
-    
-   
+
+
 </body>
 
 </html>
@@ -86,6 +90,62 @@
     let video = document.getElementById("videos")
     let query = document.getElementById("query").value
 
+
+
+
+
+    async function displayHomepage() {
+
+
+        let res1 = await fetch(`https://youtube.googleapis.com/youtube/v3/search?chart=mostPopular&type=video&key=AIzaSyB2Ij-SYpZRmmaBT4BpYs9c0jIe4JiNbA0&maxResults=20`)
+
+        let data1 = await res1.json()
+        console.log("data", data1);
+        appendVideos1(data1.items)
+
+        function appendVideos1(video_data) {
+
+            let p = document.createElement("p")
+            p.textContent = "MOST POPULAR VIDEOS"
+            p.style = "font-weight:bold"
+            video.append(p)
+
+
+
+            video_data.forEach(({ id: { videoId } }) => {
+
+
+                console.log("video", videoId)
+
+
+
+                let div = document.createElement("div");
+
+                div.innerHTML = `<iframe width="700px" height="250px" src="https://www.youtube.com/embed/${videoId}"frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+
+
+
+
+                video.append(div)
+
+
+            });
+
+
+
+        }
+
+
+
+
+    }
+
+
+    displayHomepage()
+
+
+
+
     async function searchVideos() {
         let query = document.getElementById("query").value
 
@@ -93,29 +153,33 @@
 
         let data = await res.json()
         console.log("data", data);
-         appendVideos(data.items)
+        count = 1;
+        appendVideos(data.items)
     }
 
-    // searchVideos();
 
 
-    function appendVideos(video_data) {
+
+    function appendVideos(video_data, m) {
 
         // console.log(video_data)
         video.innerHTML = null;
+
+
+
 
         video_data.forEach(({ id: { videoId } }) => {
 
 
             console.log("video", videoId)
 
-            
+
 
             let div = document.createElement("div");
 
             div.innerHTML = `<iframe width="700px" height="250px" src="https://www.youtube.com/embed/${videoId}"frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
 
-            
+
 
 
             video.append(div)
