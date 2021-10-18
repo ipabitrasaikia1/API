@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News</title>
+    <style>
+        #body {
+            background-color: #F9FBE7;
+        }
+
+        #mainBody {
+            width: 60%;
+            display: grid;
+            gap: 40px;
+            border: 1px ;
+            margin: auto;
+            background-color: #C5E1A5;
+            box-sizing: border-box;
+           
+
+        }
+
+        #searchBox {
+            margin: auto;
+
+        }
+
+        #display {
+            box-sizing: border-box;
+            margin: auto;
+            width: 50%;
+            display: grid;
+            gap: 20px;
+            border:1px ;
+           
+        }
+    </style>
+</head>
+
+<body id="body">
+
+    <div id="mainBody">
+
+
+        
+
+        <div id="searchBox">
+            <h1>MASAI TODAY</h1>
+            <input type="text" id="SearchNews" placeholder="Find News">
+            <button onclick="search()"> Find </button>
+
+        </div>
+
+        <div id="display">
+            <p style="font-size :large ">Top News</p>
+        </div>
+
+
+
+    </div>
+
+
+</body>
+
+</html>
+<script>
+    let count = 0;
+    let parent = document.getElementById("display")
+
+
+    async function showNews() {
+        count++
+
+        let inputNews = document.getElementById("SearchNews").value
+
+        let res = await fetch("https://newsapi.org/v2/top-headlines?country=us&apiKey=d344c9a66a8f4ca7816e2af433e60779")
+        let data = res.json();
+
+
+        let myPromise = new Promise((resolve, reject) => {
+
+            if (data) {
+                resolve(data)
+            }
+        })
+
+        myPromise.then((res) => {
+
+            appendNews(res.articles)
+
+            console.log(res.articles)
+        })
+
+
+
+    }
+    showNews()
+
+
+
+
+    async function search() {
+
+        count++
+
+        let inputNews = document.getElementById("SearchNews").value
+
+        let res = await fetch(`https://newsapi.org/v2/everything?q=${inputNews}&apiKey=d344c9a66a8f4ca7816e2af433e60779`)
+        let data = res.json();
+
+
+        let myPromise = new Promise((resolve, reject) => {
+
+            if (data) {
+                resolve(data)
+            }
+        })
+
+        myPromise.then((res) => {
+
+            appendNews(res.articles)
+
+            // console.log(res.articles)
+        })
+
+
+
+    }
+
+
+
+    function appendNews(nws) {
+
+
+
+        if (count != 1) {
+            parent.innerHTML = null
+        }
+
+        console.log("Type of nws", typeof (nws))
+
+
+        nws.forEach(element => {
+            //   console.log(element)
+
+           
+            let div = document.createElement("div") // Container for appending individual news
+
+            let imgDiv = document.createElement("div") // Div for appending image
+            imgDiv.style = " box-sizing: border-box ; width : 100%"
+            let img = document.createElement("img")
+            img.src = element.urlToImage;
+            img.style = "width : 100%"
+            imgDiv.append(img)  // 
+
+            let Title = document.createElement("p")
+            Title.textContent = element.title;
+            Title.style = "font-weight : bold"
+
+            let Author = document.createElement("p")
+            Author.textContent = "Author : " + element.author;
+
+            div.append(imgDiv, Title, Author)
+            parent.append(div)
+
+
+            div.onclick = () => {
+
+                showThisNews(element)
+            }
+
+
+
+        });
+
+    }
+
+
+
+    function showThisNews(element) {
+
+        count++
+        console.log("Type of E ", element)
+
+
+
+
+       
+        let parent = document.getElementById("display")
+        parent.innerHTML = null;
+        parent.style = "width: 80%;box-shadow: 10px 5px 5px grey;border-radius:10px"
+
+
+        let div = document.createElement("div") // Container for appending individual news
+            div.style=" background-color: #F1F8E9;padding:4px"
+            let imgDiv = document.createElement("div") // Div for appending image
+            imgDiv.style = " box-sizing: border-box ; width : 100%"
+            let img = document.createElement("img")
+            img.src = element.urlToImage;
+            img.style = "width : 100%"
+            imgDiv.append(img)  // 
+
+            let Title = document.createElement("p")
+            Title.textContent = element.title;
+            Title.style = "font-weight : bold"
+
+            let Author = document.createElement("p")
+            Author.textContent = "Author : " + element.author;
+
+            let Description = document.createElement("p")
+            Description.textContent = element.description
+            Description.style = "color : solid black"
+
+            div.append(imgDiv, Title, Author,Description)
+            parent.append(div)
+
+
+
+    }
+</script>
