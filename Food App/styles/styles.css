@@ -1,0 +1,37 @@
+#navbar{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 4%;
+    padding-right: 4%;
+    border: 1px ;
+}
+
+#Options{
+    display: flex;
+    justify-content: space-between;
+}
+#Options h3{
+    padding-left: 30px;
+    padding-right: 10px;
+} 
+
+#container{
+
+    width: 50%;
+    margin: auto;
+    border: 1px ;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+#container>div{
+
+    border:  1px ;
+    width: 510px;
+}
+
+#searchDiv{
+    width: 40%;
+    margin: auto;
+}
+
